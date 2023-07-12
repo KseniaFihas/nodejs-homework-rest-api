@@ -20,6 +20,10 @@ const userSchema = new Schema({
     type: String,
     default:""
   },
+  avatarURL: {
+    type: String,
+    required:true,
+  }
 }, { versionKey: false });
 userSchema.post("save", handleMongooseError);
 const registerSchema = Joi.object({
