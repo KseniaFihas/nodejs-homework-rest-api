@@ -23,8 +23,17 @@ const userSchema = new Schema({
   avatarURL: {
     type: String,
     required:true,
-  }
+  },
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verificationCode: {
+    type: String,
+    default:"",
+  },
 }, { versionKey: false });
+
 userSchema.post("save", handleMongooseError);
 const registerSchema = Joi.object({
     email: Joi.string().required(),
@@ -37,10 +46,14 @@ const loginSchema = Joi.object({
 const subscriptionSchema = Joi.object({
   subscription: Joi.string().valid("starter", "pro", "business").required().messages({ 'any.required': 'missing field {#label}' })
 });
+const emailSchema = Joi.object({
+email: Joi.string().required(),
+})
 const schemas = {
   registerSchema,
   loginSchema,
   subscriptionSchema,
+  emailSchema,
 };
 const User = model("user", userSchema);
 module.exports = {
